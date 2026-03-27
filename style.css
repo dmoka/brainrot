@@ -107,21 +107,25 @@ body {
 .btn-primary {
   background: linear-gradient(135deg, var(--pauso-teal), var(--pauso-blue));
   color: #0A0A0A;
+  text-decoration: none;
 }
 
 .btn-primary:hover {
   box-shadow: 0 0 30px rgba(91, 191, 186, 0.4);
+  text-decoration: none;
 }
 
 .btn-secondary {
   background: transparent;
   color: var(--cream);
   border: 1px solid rgba(91, 191, 186, 0.4);
+  text-decoration: none;
 }
 
 .btn-secondary:hover {
   border-color: var(--pauso-teal);
   box-shadow: 0 0 20px rgba(91, 191, 186, 0.2);
+  text-decoration: none;
 }
 
 .btn-large {
@@ -780,6 +784,15 @@ body {
   justify-content: center;
   margin-top: 32px;
   flex-wrap: wrap;
+}
+
+.solution-ctas .btn {
+  text-decoration: none;
+  color: #0A0A0A;
+}
+
+.solution-ctas .btn-secondary {
+  color: var(--cream);
 }
 
 /* ===== FAQ Section ===== */
