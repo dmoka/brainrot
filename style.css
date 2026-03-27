@@ -321,6 +321,8 @@ body {
 
 /* Pattern Selector */
 .pattern-selector {
+  position: relative;
+  z-index: 10;
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -357,6 +359,7 @@ body {
   position: relative;
   width: 280px; height: 280px;
   margin: 0 auto 24px;
+  pointer-events: none;
 }
 
 .breathing-glow {
@@ -366,7 +369,7 @@ body {
   background: radial-gradient(circle, rgba(91, 191, 186, 0.3) 0%, rgba(123, 163, 224, 0.15) 40%, transparent 70%);
   filter: blur(40px);
   opacity: 0.4;
-  transition: transform 2s ease-in-out, opacity 2s ease-in-out;
+  pointer-events: none;
 }
 
 .breathing-circle {
@@ -377,7 +380,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease-in-out;
+  pointer-events: none;
 }
 
 .breathing-circle.animate-inhale {
@@ -436,6 +439,8 @@ body {
 
 /* Controls */
 .breathing-controls {
+  position: relative;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
