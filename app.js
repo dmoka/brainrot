@@ -68,14 +68,23 @@ patternBtns.forEach(btn => {
   });
 });
 
-// Start/Stop
-startBtn.addEventListener('click', () => {
+// Start/Stop — use mousedown for instant response (no waiting for click release)
+startBtn.addEventListener('mousedown', (e) => {
+  e.preventDefault();
+  toggleBreathing();
+});
+startBtn.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  toggleBreathing();
+}, { passive: false });
+
+function toggleBreathing() {
   if (isRunning) {
     stopBreathing();
   } else {
     startBreathing();
   }
-});
+}
 
 function updatePatternInfo() {
   const p = patterns[currentPattern];
@@ -86,27 +95,32 @@ function updatePatternInfo() {
 function startBreathing() {
   isRunning = true;
   startBtn.textContent = 'Stop';
-  startBtn.classList.add('btn-secondary');
-  startBtn.classList.remove('btn-primary');
+  startBtn.dataset.state = 'running';
   currentPhaseIndex = 0;
   runPhase();
 }
 
 function stopBreathing() {
-  isRunning = false;
-  startBtn.textContent = 'Start';
-  startBtn.classList.remove('btn-secondary');
-  startBtn.classList.add('btn-primary');
-
+  // Clear timers immediately
   clearTimeout(phaseTimer);
   clearInterval(countdownInterval);
+  phaseTimer = null;
+  countdownInterval = null;
 
-  // Reset circle
+  isRunning = false;
+  startBtn.textContent = 'Start';
+  startBtn.dataset.state = 'idle';
+
+  // Kill ongoing CSS transitions by removing transition, forcing reflow, then resetting
+  circle.style.transition = 'none';
+  glow.style.transition = 'none';
+  // Force reflow so 'none' takes effect immediately
+  circle.offsetHeight;
+  // Now set the reset values (instant, no transition)
   circle.style.transform = 'scale(1)';
-  circle.style.transition = 'transform 0.5s ease-out';
   glow.style.transform = 'scale(1)';
   glow.style.opacity = '0.4';
-  glow.style.transition = 'transform 0.5s ease-out, opacity 0.5s ease-out';
+
   label.textContent = 'Press Start';
   timer.textContent = '';
 }
@@ -126,7 +140,6 @@ function runPhase() {
   glow.style.transition = `transform ${durationSec}s ease-in-out, opacity ${durationSec}s ease-in-out`;
 
   if (phase.type === 'inhale') {
-    // For physiological sigh, second inhale goes to 1.2
     const isSecondInhale = currentPattern === 'physiological' && currentPhaseIndex === 1;
     const scale = isSecondInhale ? 1.2 : 1.15;
     circle.style.transform = `scale(${scale})`;
@@ -157,7 +170,6 @@ function runPhase() {
   phaseTimer = setTimeout(() => {
     currentPhaseIndex++;
     if (currentPhaseIndex >= p.phases.length) {
-      // Cycle complete
       currentPhaseIndex = 0;
       cycleCount++;
       cycleCountEl.textContent = cycleCount;

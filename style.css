@@ -132,6 +132,20 @@ body {
   padding: 18px 48px;
   font-size: 1.1rem;
   border-radius: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+#startBtn[data-state="running"] {
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid rgba(91, 191, 186, 0.4);
+}
+
+#startBtn[data-state="running"]:hover {
+  border-color: var(--pauso-teal);
+  box-shadow: 0 0 20px rgba(91, 191, 186, 0.2);
 }
 
 /* ===== Glass Card ===== */
